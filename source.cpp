@@ -16,6 +16,7 @@ int nMapWidth = 16;
 
 float fFOV = 3.14159 / 4.0;
 float fDepth = 16.0f;
+float fSpeed = 5.0f;
 
 int main()
 {
@@ -61,20 +62,30 @@ int main()
         // Handle CCW Rotation
         if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
             fPlayerA -= (0.8f) * fElapsedTime;
-
+        // Handle CW Rotation
         if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
             fPlayerA += (0.8f) * fElapsedTime;
-
+        // Handle Forwards movement & collision
         if (GetAsyncKeyState((unsigned short)'W') & 0x8000)
         {
-            fPlayerX += sinf(fPlayerA) * 5.0f * fElapsedTime;
-            fPlayerY += cosf(fPlayerA) * 5.0f * fElapsedTime;
+            fPlayerX += sinf(fPlayerA) * fSpeed * fElapsedTime;
+            fPlayerY += cosf(fPlayerA) * fSpeed * fElapsedTime;
+            if (map.c_str()[(int)fPlayerX * nMapWidth + (int)fPlayerY] == '#')
+            {
+                fPlayerX -= sinf(fPlayerA) * fSpeed * fElapsedTime;;
+                fPlayerY -= cosf(fPlayerA) * fSpeed * fElapsedTime;;
+            }
         }
-
+        // Handle backwards movement & collision
         if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
         {
-            fPlayerX -= sinf(fPlayerA) * 5.0f * fElapsedTime;
-            fPlayerY -= cosf(fPlayerA) * 5.0f * fElapsedTime;
+            fPlayerX -= sinf(fPlayerA) * fSpeed * fElapsedTime;
+            fPlayerY -= cosf(fPlayerA) * fSpeed * fElapsedTime;
+            if (map.c_str()[(int)fPlayerX * nMapWidth + (int)fPlayerY] == '#')
+            {
+                fPlayerX += sinf(fPlayerA) * fSpeed * fElapsedTime;;
+                fPlayerY += cosf(fPlayerA) * fSpeed * fElapsedTime;;
+            }
         }
 
 
