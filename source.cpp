@@ -1,5 +1,7 @@
 #include <iostream>
 #include <chrono>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 #include <Windows.h>
@@ -96,6 +98,7 @@ int main()
 
             float fDistanceToWall = 0;
             bool bHitWall = false;
+            bool bBoundary = false;
 
             float fEyeX = sinf(fRayAngle); // Unit vector for ray in player space
             float fEyeY = cosf(fRayAngle);
@@ -119,6 +122,26 @@ int main()
                     if (map.c_str()[nTestY * nMapWidth + nTestX] == '#')
                     {
                         bHitWall = true;
+
+                        vector<pair<float, float>> p; // distance, dot
+                        
+                        for (int tx = 0; tx < 2; tx++)
+                            for (int ty = 0; ty < 2; ty++)
+                            {
+                                float vy = (float)nTestY + ty - fPlayerY;
+                                float vx = (float)nTestX + tx - fPlayerX;
+                                float d = sqrt(vx*vx + vy*vy);
+                                float dot = (fEyeX * vx / d) + (fEyeY * vy / d);
+                                p.push_back(make_pair(d, dot));
+                            }
+                        
+                        // Sort Pairs from closest to farthest
+                        sort(p.begin(), p.end(), [](const pair<float, float>& left, const pair<float, float>& right) {return left.first < right.first; });
+
+                        float fBound = 0.01;
+                        if (acos(p.at(0).second) < fBound) bBoundary = true;
+                        if (acos(p.at(1).second) < fBound) bBoundary = true;
+                        if (acos(p.at(2).second) < fBound) bBoundary = true;
                     }
                 }
             }
@@ -135,6 +158,7 @@ int main()
             else if (fDistanceToWall < fDepth)				nShade = 0x2591;
             else											nShade = ' ';		// Too far away
 
+            if (bBoundary) nShade = ' ';
 
             for (int y = 0; y < nScreenHeight; y++)
             {
