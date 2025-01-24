@@ -187,7 +187,10 @@ int main()
         for (int nx = 0; nx < nMapWidth; nx++)
             for (int ny = 0; ny < nMapWidth; ny++)
             {
-                screen[(ny + 1) * nScreenWidth + nx] = map[ny * nMapWidth + nx];
+                if ((ny + 1) * nScreenWidth + nx < nScreenWidth * nScreenHeight)
+                {
+                    screen[(ny + 1) * nScreenWidth + nx] = map[ny * nMapWidth + nx];
+                }
             }
         screen[((int)fPlayerY + 1) * nScreenWidth + (int)fPlayerX] = 'P';
 
