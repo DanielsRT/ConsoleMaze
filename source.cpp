@@ -32,17 +32,17 @@ int main()
 
     map += L"################";
     map += L"#..............#";
-    map += L"#.##########...#";
-    map += L"#.#............#";
-    map += L"#.######..######";
-    map += L"#.#............#";
-    map += L"##########.#...#";
-    map += L"#..........#...#";
-    map += L"#.##############";
-    map += L"#.#............#";
-    map += L"#.#..########..#";
-    map += L"#.#..#.........#";
-    map += L"#.#..#..########";
+    map += L"#..............#";
+    map += L"#......#.......#";
+    map += L"#......#.......#";
+    map += L"#......#.......#";
+    map += L"#......#.......#";
+    map += L"############...#";
+    map += L"#......#...#...#";
+    map += L"#...#..#...#...#";
+    map += L"#...#..#...#...#";
+    map += L"#...#..........#";
+    map += L"#...############";
     map += L"#..............#";
     map += L"#..............#";
     map += L"################";
@@ -63,16 +63,16 @@ int main()
         // Controls
         // Handle CCW Rotation
         if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
-            fPlayerA -= (0.8f) * fElapsedTime;
+            fPlayerA -= (0.9f) * fElapsedTime;
         // Handle CW Rotation
         if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
-            fPlayerA += (0.8f) * fElapsedTime;
+            fPlayerA += (0.9f) * fElapsedTime;
         // Handle Forwards movement & collision
         if (GetAsyncKeyState((unsigned short)'W') & 0x8000)
         {
             fPlayerX += sinf(fPlayerA) * fSpeed * fElapsedTime;
             fPlayerY += cosf(fPlayerA) * fSpeed * fElapsedTime;
-            if (map.c_str()[(int)fPlayerX * nMapWidth + (int)fPlayerY] == '#')
+            if (map[(int)fPlayerY * nMapWidth + (int)fPlayerX] == '#')
             {
                 fPlayerX -= sinf(fPlayerA) * fSpeed * fElapsedTime;;
                 fPlayerY -= cosf(fPlayerA) * fSpeed * fElapsedTime;;
@@ -83,7 +83,7 @@ int main()
         {
             fPlayerX -= sinf(fPlayerA) * fSpeed * fElapsedTime;
             fPlayerY -= cosf(fPlayerA) * fSpeed * fElapsedTime;
-            if (map.c_str()[(int)fPlayerX * nMapWidth + (int)fPlayerY] == '#')
+            if (map[(int)fPlayerY * nMapWidth + (int)fPlayerX] == '#')
             {
                 fPlayerX += sinf(fPlayerA) * fSpeed * fElapsedTime;;
                 fPlayerY += cosf(fPlayerA) * fSpeed * fElapsedTime;;
@@ -119,7 +119,7 @@ int main()
                 else
                 {
                     // Ray is inbounds so test to see if the ray cell is a wall block
-                    if (map.c_str()[nTestY * nMapWidth + nTestX] == '#')
+                    if (map[nTestY * nMapWidth + nTestX] == '#')
                     {
                         bHitWall = true;
 
