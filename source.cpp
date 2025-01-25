@@ -63,10 +63,10 @@ int main()
         // Controls
         // Handle CCW Rotation
         if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
-            fPlayerA -= (0.9f) * fElapsedTime;
+            fPlayerA -= (1.0f) * fElapsedTime;
         // Handle CW Rotation
         if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
-            fPlayerA += (0.9f) * fElapsedTime;
+            fPlayerA += (1.0f) * fElapsedTime;
         // Handle Forwards movement & collision
         if (GetAsyncKeyState((unsigned short)'W') & 0x8000)
         {
